@@ -160,7 +160,7 @@ class Server:
             res_fed = self.evaluate_round(rnd=current_round)
             if res_fed:
                 loss_fed, evaluate_metrics_fed, _ = res_fed
-                if loss_fed:
+                if loss_fed is not None:
                     history.add_loss_distributed(rnd=current_round, loss=loss_fed)
                     history.add_metrics_distributed(
                         rnd=current_round, metrics=evaluate_metrics_fed
