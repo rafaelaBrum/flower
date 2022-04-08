@@ -161,6 +161,7 @@ class NumPyClientWrapper(Client):
     """Wrapper which translates between Client and NumPyClient."""
 
     def __init__(self, numpy_client: NumPyClient) -> None:
+        super().__init__()
         self.numpy_client = numpy_client
 
     def get_parameters(self) -> ParametersRes:

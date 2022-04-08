@@ -107,6 +107,7 @@ class KerasClientWrapper(Client):
     """Wrapper which translates between Client and KerasClient."""
 
     def __init__(self, keras_client: KerasClient) -> None:
+        super().__init__()
         self.keras_client = keras_client
 
     def get_parameters(self) -> ParametersRes:
