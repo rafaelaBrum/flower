@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 """Flower client (abstract base class)."""
-
+import urllib.request
 
 from abc import ABC, abstractmethod
 
@@ -22,6 +22,10 @@ from flwr.common import EvaluateIns, EvaluateRes, FitIns, FitRes, ParametersRes
 
 class Client(ABC):
     """Abstract base class for Flower clients."""
+
+    def __init__(self):
+        self.public_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')
+        print(self.public_ip)
 
     @abstractmethod
     def get_parameters(self) -> ParametersRes:

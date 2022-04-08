@@ -65,6 +65,7 @@ def start_client(
                 client_message, sleep_duration, keep_going = handle(
                     client, server_message
                 )
+                log(INFO, "Sending message (client {})".format(client.public_ip))
                 send(client_message)
                 if not keep_going:
                     break

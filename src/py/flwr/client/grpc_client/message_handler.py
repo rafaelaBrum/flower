@@ -16,10 +16,12 @@
 
 
 from typing import Tuple
+from logging import INFO
 
 from flwr.client.client import Client
 from flwr.common import serde
 from flwr.proto.transport_pb2 import ClientMessage, Reason, ServerMessage
+from flwr.common.logger import log
 
 # pylint: disable=missing-function-docstring
 
@@ -35,10 +37,13 @@ def handle(
         disconnect_msg, sleep_duration = _reconnect(server_msg.reconnect)
         return disconnect_msg, sleep_duration, False
     if server_msg.HasField("get_parameters"):
+        log(INFO, "Receiving get_parameters message (client {})".format(client.public_ip))
         return _get_parameters(client), 0, True
     if server_msg.HasField("fit_ins"):
+        log(INFO, "Receiving fit message (client {})".format(client.public_ip))
         return _fit(client, server_msg.fit_ins), 0, True
     if server_msg.HasField("evaluate_ins"):
+        log(INFO, "Receiving evaluate message (client {})".format(client.public_ip))
         return _evaluate(client, server_msg.evaluate_ins), 0, True
     raise UnkownServerMessage()
 
