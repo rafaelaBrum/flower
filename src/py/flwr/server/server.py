@@ -361,7 +361,9 @@ def fit_clients(
 
 def fit_client(client: ClientProxy, ins: FitIns) -> Tuple[ClientProxy, FitRes]:
     """Refine parameters on a single client."""
+    log(INFO, "Sending fit_message to {}".format(client.cid))
     fit_res = client.fit(ins)
+    log(INFO, "Received answer for fit_message from {}".format(client.cid))
     return client, fit_res
 
 
@@ -392,5 +394,7 @@ def evaluate_client(
     client: ClientProxy, ins: EvaluateIns
 ) -> Tuple[ClientProxy, EvaluateRes]:
     """Evaluate parameters on a single client."""
+    log(INFO, "Sending evaluate_message to {}".format(client.cid))
     evaluate_res = client.evaluate(ins)
+    log(INFO, "Received answer for evaluate_message from {}".format(client.cid))
     return client, evaluate_res
