@@ -20,6 +20,8 @@ import sys
 import timeit
 from logging import DEBUG, INFO, WARNING
 from typing import Dict, List, Optional, Tuple, Union
+from pympler import asizeof
+
 
 from flwr.common import (
     Disconnect,
@@ -362,10 +364,10 @@ def fit_clients(
 
 def fit_client(client: ClientProxy, ins: FitIns) -> Tuple[ClientProxy, FitRes]:
     """Refine parameters on a single client."""
-    log(INFO, "Sending fit_message to {} - message size {}".format(client.cid, sys.getsizeof(ins.parameters.tensors)))
+    log(INFO, "Sending fit_message to {} - message size {}".format(client.cid, asizeof.asizeof(ins)))
     fit_res = client.fit(ins)
     log(INFO, "Received answer for fit_message from {} "
-              "- message size {}".format(client.cid, sys.getsizeof(fit_res.parameters.tensors)))
+              "- message size {}".format(client.cid, asizeof.asizeof(fit_res)))
     return client, fit_res
 
 
