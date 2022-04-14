@@ -398,7 +398,8 @@ def evaluate_client(
     client: ClientProxy, ins: EvaluateIns
 ) -> Tuple[ClientProxy, EvaluateRes]:
     """Evaluate parameters on a single client."""
-    log(INFO, "Sending evaluate_message to {}".format(client.cid))
+    log(INFO, "Sending evaluate_message to {} - message size {}".format(client.cid, asizeof.asizeof(ins)))
     evaluate_res = client.evaluate(ins)
-    log(INFO, "Received answer for evaluate_message from {}".format(client.cid))
+    log(INFO, "Received answer for evaluate_message from {} "
+              "- message size {}".format(client.cid, asizeof.asizeof(evaluate_res)))
     return client, evaluate_res
