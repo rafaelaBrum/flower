@@ -121,6 +121,8 @@ def _fl(
     log(INFO, "app_fit: losses_centralized %s", str(hist.losses_centralized))
     log(INFO, "app_fit: metrics_centralized %s", str(hist.metrics_centralized))
 
+    print("force_final_eval", force_final_distributed_eval)
+
     if force_final_distributed_eval:
         # Temporary workaround to force distributed evaluation
         server.strategy.eval_fn = None  # type: ignore
