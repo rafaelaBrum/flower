@@ -14,11 +14,11 @@
 # ==============================================================================
 """Flower server strategy."""
 
+
 from abc import ABC, abstractmethod
 from typing import Dict, List, Optional, Tuple
 
 from flwr.common import EvaluateIns, EvaluateRes, FitIns, FitRes, Parameters, Scalar
-
 from flwr.server.client_manager import ClientManager
 from flwr.server.client_proxy import ClientProxy
 
@@ -73,7 +73,6 @@ class Strategy(ABC):
         rnd: int,
         results: List[Tuple[ClientProxy, FitRes]],
         failures: List[BaseException],
-
     ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
         """Aggregate training results.
 
@@ -131,7 +130,6 @@ class Strategy(ABC):
         rnd: int,
         results: List[Tuple[ClientProxy, EvaluateRes]],
         failures: List[BaseException],
-
     ) -> Tuple[Optional[float], Dict[str, Scalar]]:
         """Aggregate evaluation results.
 
