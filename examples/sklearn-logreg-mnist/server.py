@@ -6,7 +6,7 @@ from typing import Dict
 
 
 def fit_round(rnd: int) -> Dict:
-    """Send round number to client"""
+    """Send round number to client."""
     return {"rnd": rnd}
 
 
@@ -36,4 +36,8 @@ if __name__ == "__main__":
         eval_fn=get_eval_fn(model),
         on_fit_config_fn=fit_round,
     )
-    fl.server.start_server("0.0.0.0:8080", strategy=strategy, config={"num_rounds": 5})
+    fl.server.start_server(
+        server_address="0.0.0.0:8080",
+        strategy=strategy,
+        config={"num_rounds": 5},
+    )
