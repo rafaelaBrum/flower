@@ -33,9 +33,10 @@ from flwr.common import (
     PropertiesRes,
     Scalar,
     Status,
-    parameters_to_weights,
-    weights_to_parameters,
+    parameters_to_ndarrays,
+    ndarrays_to_parameters,
 )
+from numpy import ndarray
 
 from .client import Client
 
@@ -183,13 +184,13 @@ class NumPyClientWrapper(Client):
     def get_parameters(self) -> ParametersRes:
         """Return the current local model parameters."""
         parameters = self.numpy_client.get_parameters()
-        parameters_proto = weights_to_parameters(parameters)
+        parameters_proto = ndarrays_to_parameters(parameters)
         return ParametersRes(parameters=parameters_proto)
 
     def fit(self, ins: FitIns) -> FitRes:
         """Refine the provided weights using the locally held dataset."""
         # Deconstruct FitIns
-        parameters: List[np.ndarray] = parameters_to_weights(ins.parameters)
+        parameters: List[np.ndarray] = parameters_to_ndarrays(ins.parameters)
 
         # Train
         results: Tuple[List[np.ndarray], int, Metrics] = self.numpy_client.fit(
@@ -205,7 +206,7 @@ class NumPyClientWrapper(Client):
 
         # Return FitRes
         parameters_prime, num_examples, metrics = results
-        parameters_prime_proto = weights_to_parameters(parameters_prime)
+        parameters_prime_proto = ndarrays_to_parameters(parameters_prime)
         return FitRes(
             parameters=parameters_prime_proto,
             num_examples=num_examples,
@@ -214,7 +215,7 @@ class NumPyClientWrapper(Client):
 
     def evaluate(self, ins: EvaluateIns) -> EvaluateRes:
         """Evaluate the provided parameters using the locally held dataset."""
-        parameters: List[np.ndarray] = parameters_to_weights(ins.parameters)
+        parameters: List[np.ndarray] = parameters_to_ndarrays(ins.parameters)
 
         results: Tuple[float, int, Metrics] = self.numpy_client.evaluate(
             parameters, ins.config

@@ -20,17 +20,17 @@ from typing import cast
 
 import numpy as np
 
-from .typing import Parameters, Weights
+from .typing import Parameters, NDArrays
 
 
-def weights_to_parameters(weights: Weights) -> Parameters:
-    """Convert NumPy weights to parameters object."""
-    tensors = [ndarray_to_bytes(ndarray) for ndarray in weights]
+def ndarrays_to_parameters(ndarrays: NDArrays) -> Parameters:
+    """Convert NumPy ndarrays to parameters object."""
+    tensors = [ndarray_to_bytes(ndarray) for ndarray in ndarrays]
     return Parameters(tensors=tensors, tensor_type="numpy.ndarray")
 
 
-def parameters_to_weights(parameters: Parameters) -> Weights:
-    """Convert parameters object to NumPy weights."""
+def parameters_to_ndarrays(parameters: Parameters) -> NDArrays:
+    """Convert parameters object to NumPy ndarrays."""
     return [bytes_to_ndarray(tensor) for tensor in parameters.tensors]
 
 
@@ -39,7 +39,7 @@ def ndarray_to_bytes(ndarray: np.ndarray) -> bytes:
     bytes_io = BytesIO()
     # WARNING: NEVER set allow_pickle to true.
     # Reason: loading pickled data can execute arbitrary code
-    # Source: https://numpy.org/doc/stable/reference/generated/numpy.save.html
+    # Source: https://numpy.org/doc/stable/reference/generated/numpy.load.html
     np.save(bytes_io, ndarray, allow_pickle=False)
     return bytes_io.getvalue()
 
